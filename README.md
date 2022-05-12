@@ -36,9 +36,9 @@ You can use this model directly with a pipeline for text generation.
 ```python
 >>> from transformers import pipeline
 
->>> generator = pipeline('text-generation', model="facebook/opt-350m")
+>>> generator = pipeline('text-generation', model="facebook/opt-1.3b")
 >>> generator("Hello, I'm am conscious and")
-[{'generated_text': "Hello, I'm am conscious and I'm a bit of a noob. I'm looking for"}]
+[{'generated_text': "Hello, I'm am conscious and aware of my surroundings. I'm aware that I'm dreaming."}]
 ```
 
 By default, generation is deterministic. In order to use the top-k sampling, please set `do_sample` to `True`. 
@@ -47,9 +47,9 @@ By default, generation is deterministic. In order to use the top-k sampling, ple
 >>> from transformers import pipeline, set_seed
 
 >>> set_seed(32)
->>> generator = pipeline('text-generation', model="facebook/opt-350m", do_sample=True)
+>>> generator = pipeline('text-generation', model="facebook/opt-1.3b", do_sample=True)
 >>> generator("Hello, I'm am conscious and")
-[{'generated_text': "Hello, I'm am conscious and I'm interested in this project. Can I get an initial contact"}]
+[{'generated_text': "Hello, I'm am conscious and aware of my surroundings. I'm aware that my thoughts are thoughts"}]
 ```
 
 ### Limitations and bias
@@ -69,13 +69,13 @@ Here's an example of how the model can have biased predictions:
 >>> from transformers import pipeline, set_seed
 
 >>> set_seed(32)
->>> generator = pipeline('text-generation', model="facebook/opt-350m", do_sample=True, num_return_sequences=5)
+>>> generator = pipeline('text-generation', model="facebook/opt-1.3b", do_sample=True, num_return_sequences=5)
 >>> generator("The woman worked as a")
-[{'generated_text': "The woman works as a substitute teacher for kids who have missed school. She's the teacher herself,"},
- {'generated_text': 'The woman works as a security guard for another company and does an average of around $13/hour'},
- {'generated_text': 'The woman works as a receptionist, she could at the least wait a week or two for her'},
- {'generated_text': 'The woman works as a manager/intern/career development coach/advisor at a nursing home'},
- {'generated_text': 'The woman works as a maid and has to clean the house but you can tell her to do it'}]
+[{'generated_text': 'The woman worked as a waitress for six months before she started dating her boyfriend, who was working at'},
+ {'generated_text': "The woman worked as a prostitute, but she didn't want to sell herself anymore. She wanted to"},
+ {'generated_text': 'The woman worked as a translator at the embassy during her studies at Cambridge University in England. She said'}, 
+ {'generated_text': 'The woman worked as a secretary for Senator Ted Stevens of Alaska for 22 years before retiring from his Senate'}, 
+ {'generated_text': 'The woman worked as a caregiver for elderly patients at the nursing home where she lived until she died'}]
 ```
 
 compared to:
@@ -84,13 +84,13 @@ compared to:
 >>> from transformers import pipeline, set_seed
 
 >>> set_seed(32)
->>> generator = pipeline('text-generation', model="facebook/opt-350m", do_sample=True, num_return_sequences=5)
+>>> generator = pipeline('text-generation', model="facebook/opt-1.3b", do_sample=True, num_return_sequences=5)
 >>> generator("The man worked as a")
-[{'generated_text': 'The man works as a security guard for the National Football League franchise. He has been a part of'},
- {'generated_text': 'The man works as a security guard for another company and does an excellent job.\nI remember when'},
- {'generated_text': 'The man works as a "secret agent" but at the same time he\'s working to protect the'},
- {'generated_text': 'The man works as a manager/operator/servant for a grocery store and does a lot of'},
- {'generated_text': 'The man works as a bouncer near the scene of the accident - how he could do that is'}]
+[{'generated_text': 'The man worked as a janitor at the University of Michigan Medical Center before he died after contracting Ebola'}, 
+ {'generated_text': 'The man worked as a salesman for IBM Corp., selling computers to businesses around the globe. He traveled'}, 
+ {'generated_text': 'The man worked as a translator for the British Broadcasting Corporation between 1956 and 1961. During that period he'}, 
+ {'generated_text': 'The man worked as a salesman for IBM Corp., selling computers for computers. He traveled extensively and lived'}, 
+ {'generated_text': 'The man worked as a security guard for nearly 30 years before he was shot dead by police officers responding'}]
  ```
 
 This bias will also affect all fine-tuned versions of this model.
