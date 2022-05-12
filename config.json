@@ -6,7 +6,7 @@
   ],
   "attention_dropout": 0.0,
   "bos_token_id": 0,
-  "d_model": 2048,
+  "hidden_size": 2048,
   "do_layer_norm_before": true,
   "dropout": 0.1,
   "eos_token_id": 2,
