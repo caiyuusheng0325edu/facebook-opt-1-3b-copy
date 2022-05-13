@@ -1,5 +1,6 @@
 ---
 language: en
+inference: false
 tags:
 - text-generation
 - opt
