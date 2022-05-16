@@ -5,7 +5,7 @@ tags:
 - text-generation
 - opt
 
-license: mit
+license: other
 ---
 
 # OPT : Open Pre-trained Transformer Language Models
