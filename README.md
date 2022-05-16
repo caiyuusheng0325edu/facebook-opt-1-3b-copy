@@ -6,6 +6,7 @@ tags:
 - opt
 
 license: other
+commercial: false
 ---
 
 # OPT : Open Pre-trained Transformer Language Models
