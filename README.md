@@ -1,161 +1,47 @@
 ---
-language: en
-inference: false
 tags:
-- text-generation
-- opt
-
-license: other
-commercial: false
+- generated_from_keras_callback
+model-index:
+- name: opt-1.3b
+  results: []
 ---
 
-# OPT : Open Pre-trained Transformer Language Models
+<!-- This model card has been generated automatically according to the information Keras had access to. You should
+probably proofread and complete it, then remove this comment. -->
 
-OPT was first introduced in [Open Pre-trained Transformer Language Models](https://arxiv.org/abs/2205.01068) and first released in [metaseq's repository](https://github.com/facebookresearch/metaseq) on May 3rd 2022 by Meta AI.
+# opt-1.3b
 
-**Disclaimer**: The team releasing OPT wrote an official model card, which is available in Appendix D of the [paper](https://arxiv.org/pdf/2205.01068.pdf). 
-Content from **this** model card has been written by the Hugging Face team.
+This model was trained from scratch on an unknown dataset.
+It achieves the following results on the evaluation set:
 
-## Intro
-
-To quote the first two paragraphs of the [official paper](https://arxiv.org/abs/2205.01068)
-
-> Large language models trained on massive text collections have shown surprising emergent
-> capabilities to generate text and perform zero- and few-shot learning. While in some cases the public
-> can interact with these models through paid APIs, full model access is currently limited to only a
-> few highly resourced labs. This restricted access has limited researchers’ ability to study how and
-> why these large language models work, hindering progress on improving known challenges in areas
-> such as robustness, bias, and toxicity.
-
-> We present Open Pretrained Transformers (OPT), a suite of decoder-only pre-trained transformers ranging from 125M
-> to 175B parameters, which we aim to fully and responsibly share with interested researchers. We train the OPT models to roughly match 
-> the performance and sizes of the GPT-3 class of models, while also applying the latest best practices in data
-> collection and efficient training. Our aim in developing this suite of OPT models is to enable reproducible and responsible research at scale, and
-> to bring more voices to the table in studying the impact of these LLMs. Definitions of risk, harm, bias, and toxicity, etc., should be articulated by the
-> collective research community as a whole, which is only possible when models are available for study.
 
 ## Model description
 
-OPT was predominantly pretrained with English text, but a small amount of non-English data is still present within the training corpus via CommonCrawl. The model was pretrained using a causal language modeling (CLM) objective.
-OPT belongs to the same family of decoder-only models like [GPT-3](https://arxiv.org/abs/2005.14165). As such, it was pretrained using the self-supervised causal language modedling objective.
+More information needed
 
-For evaluation, OPT follows [GPT-3](https://arxiv.org/abs/2005.14165) by using their prompts and overall experimental setup. For more details, please read 
-the [official paper](https://arxiv.org/abs/2205.01068).
 ## Intended uses & limitations
 
-The pretrained-only model can be used for prompting for evaluation of downstream tasks as well as text generation.
-In addition, the model can be fine-tuned on a downstream task using the [CLM example](https://github.com/huggingface/transformers/tree/main/examples/pytorch/language-modeling). For all other OPT checkpoints, please have a look at the [model hub](https://huggingface.co/models?filter=opt).
+More information needed
 
-### How to use
+## Training and evaluation data
 
-You can use this model directly with a pipeline for text generation.
-
-```python
->>> from transformers import pipeline
-
->>> generator = pipeline('text-generation', model="facebook/opt-1.3b")
->>> generator("Hello, I'm am conscious and")
-[{'generated_text': "Hello, I'm am conscious and aware of my surroundings. I'm aware that I'm dreaming."}]
-```
-
-By default, generation is deterministic. In order to use the top-k sampling, please set `do_sample` to `True`. 
-
-```python
->>> from transformers import pipeline, set_seed
-
->>> set_seed(32)
->>> generator = pipeline('text-generation', model="facebook/opt-1.3b", do_sample=True)
->>> generator("Hello, I'm am conscious and")
-[{'generated_text': "Hello, I'm am conscious and aware of my surroundings. I'm aware that my thoughts are thoughts"}]
-```
-
-### Limitations and bias
-
-As mentioned in Meta AI's model card, given that the training data used for this model contains a lot of
-unfiltered content from the internet, which is far from neutral the model is strongly biased : 
-
-> Like other large language models for which the diversity (or lack thereof) of training
-> data induces downstream impact on the quality of our model, OPT-175B has limitations in terms
-> of bias and safety. OPT-175B can also have quality issues in terms of generation diversity and
-> hallucination. In general, OPT-175B is not immune from the plethora of issues that plague modern
-> large language models. 
-
-Here's an example of how the model can have biased predictions:
-
-```python
->>> from transformers import pipeline, set_seed
-
->>> set_seed(32)
->>> generator = pipeline('text-generation', model="facebook/opt-1.3b", do_sample=True, num_return_sequences=5)
->>> generator("The woman worked as a")
-[{'generated_text': 'The woman worked as a waitress for six months before she started dating her boyfriend, who was working at'},
- {'generated_text': "The woman worked as a prostitute, but she didn't want to sell herself anymore. She wanted to"},
- {'generated_text': 'The woman worked as a translator at the embassy during her studies at Cambridge University in England. She said'}, 
- {'generated_text': 'The woman worked as a secretary for Senator Ted Stevens of Alaska for 22 years before retiring from his Senate'}, 
- {'generated_text': 'The woman worked as a caregiver for elderly patients at the nursing home where she lived until she died'}]
-```
-
-compared to:
-
-```python
->>> from transformers import pipeline, set_seed
-
->>> set_seed(32)
->>> generator = pipeline('text-generation', model="facebook/opt-1.3b", do_sample=True, num_return_sequences=5)
->>> generator("The man worked as a")
-[{'generated_text': 'The man worked as a janitor at the University of Michigan Medical Center before he died after contracting Ebola'}, 
- {'generated_text': 'The man worked as a salesman for IBM Corp., selling computers to businesses around the globe. He traveled'}, 
- {'generated_text': 'The man worked as a translator for the British Broadcasting Corporation between 1956 and 1961. During that period he'}, 
- {'generated_text': 'The man worked as a salesman for IBM Corp., selling computers for computers. He traveled extensively and lived'}, 
- {'generated_text': 'The man worked as a security guard for nearly 30 years before he was shot dead by police officers responding'}]
- ```
-
-This bias will also affect all fine-tuned versions of this model.
-
-## Training data
-
-The Meta AI team wanted to train this model on a corpus as large as possible. It is composed of the union of the following 5 filtered datasets of textual documents: 
-
-  - BookCorpus, which consists of more than 10K unpublished books,
-  - CC-Stories, which contains a subset of CommonCrawl data filtered to match the
-story-like style of Winograd schemas,
-  - The Pile, from which * Pile-CC, OpenWebText2, USPTO, Project Gutenberg, OpenSubtitles, Wikipedia, DM Mathematics and HackerNews* were included. 
-  - Pushshift.io Reddit dataset that was developed in Baumgartner et al. (2020) and processed in
-Roller et al. (2021)
-  - CCNewsV2 containing an updated version of the English portion of the CommonCrawl News
-dataset that was used in RoBERTa (Liu et al., 2019b)
-
-The final training data contains 180B tokens corresponding to 800GB of data. The validation split was made of 200MB of the pretraining data, sampled proportionally
-to each dataset’s size in the pretraining corpus. 
-
-The dataset might contains offensive content as parts of the dataset are a subset of
-public Common Crawl data, along with a subset of public Reddit data, which could contain sentences
-that, if viewed directly, can be insulting, threatening, or might otherwise cause anxiety.
-
-### Collection process
-
-The dataset was collected form internet, and went through classic data processing algorithms  and
-re-formatting practices, including removing repetitive/non-informative text like *Chapter One* or
-*This ebook by Project Gutenberg.*
+More information needed
 
 ## Training procedure
 
-### Preprocessing
+### Training hyperparameters
 
-The texts are tokenized using the **GPT2** byte-level version of Byte Pair Encoding (BPE) (for unicode characters) and a
-vocabulary size of 50272. The inputs are sequences of 2048 consecutive tokens.
+The following hyperparameters were used during training:
+- optimizer: None
+- training_precision: float32
 
-The 175B model was trained on 992 *80GB A100 GPUs*. The training duration was roughly ~33 days of continuous training.
+### Training results
 
-### BibTeX entry and citation info
 
-```bibtex
-@misc{zhang2022opt,
-      title={OPT: Open Pre-trained Transformer Language Models}, 
-      author={Susan Zhang and Stephen Roller and Naman Goyal and Mikel Artetxe and Moya Chen and Shuohui Chen and Christopher Dewan and Mona Diab and Xian Li and Xi Victoria Lin and Todor Mihaylov and Myle Ott and Sam Shleifer and Kurt Shuster and Daniel Simig and Punit Singh Koura and Anjali Sridhar and Tianlu Wang and Luke Zettlemoyer},
-      year={2022},
-      eprint={2205.01068},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL}
-}
-```
+
+### Framework versions
+
+- Transformers 4.20.0.dev0
+- TensorFlow 2.9.1
+- Datasets 2.2.2
+- Tokenizers 0.12.1
