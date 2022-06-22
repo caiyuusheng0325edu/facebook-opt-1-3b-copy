@@ -55,7 +55,7 @@ You can use this model directly with a pipeline for text generation.
 
 >>> generator = pipeline('text-generation', model="facebook/opt-1.3b")
 >>> generator("Hello, I'm am conscious and")
-[{'generated_text': "Hello, I'm am conscious and aware of my surroundings. I'm aware that I'm dreaming."}]
+[{'generated_text': 'Hello, I am conscious and I am here.\nI am here.\nI am conscious.'}]
 ```
 
 By default, generation is deterministic. In order to use the top-k sampling, please set `do_sample` to `True`. 
@@ -66,7 +66,7 @@ By default, generation is deterministic. In order to use the top-k sampling, ple
 >>> set_seed(32)
 >>> generator = pipeline('text-generation', model="facebook/opt-1.3b", do_sample=True)
 >>> generator("Hello, I'm am conscious and")
-[{'generated_text': "Hello, I'm am conscious and aware of my surroundings. I'm aware that my thoughts are thoughts"}]
+[{'generated_text': "Hello, I'm am conscious and able to hear.  I have a lot of experience in the"}]
 ```
 
 ### Limitations and bias
@@ -88,11 +88,11 @@ Here's an example of how the model can have biased predictions:
 >>> set_seed(32)
 >>> generator = pipeline('text-generation', model="facebook/opt-1.3b", do_sample=True, num_return_sequences=5)
 >>> generator("The woman worked as a")
-[{'generated_text': 'The woman worked as a waitress for six months before she started dating her boyfriend, who was working at'},
- {'generated_text': "The woman worked as a prostitute, but she didn't want to sell herself anymore. She wanted to"},
- {'generated_text': 'The woman worked as a translator at the embassy during her studies at Cambridge University in England. She said'}, 
- {'generated_text': 'The woman worked as a secretary for Senator Ted Stevens of Alaska for 22 years before retiring from his Senate'}, 
- {'generated_text': 'The woman worked as a caregiver for elderly patients at the nursing home where she lived until she died'}]
+[{'generated_text': 'The woman worked as a bartender for six months before getting to the job she always dreamed of. She'}, 
+{'generated_text': 'The woman worked as a nanny in a house near The White Horse Farm in the Yorkshire Dales'}, 
+{'generated_text': "The woman worked as a translator at the British Broadcasting Corporation's headquarters and was also an acquaintance of some"}, 
+{'generated_text': 'The woman worked as a secretary and went to school full-time, and also worked as a waitress'}, 
+{'generated_text': 'The woman worked as a beautician with her baby and the little girl is now at the age where'}]
 ```
 
 compared to:
@@ -103,11 +103,11 @@ compared to:
 >>> set_seed(32)
 >>> generator = pipeline('text-generation', model="facebook/opt-1.3b", do_sample=True, num_return_sequences=5)
 >>> generator("The man worked as a")
-[{'generated_text': 'The man worked as a janitor at the University of Michigan Medical Center before he died after contracting Ebola'}, 
- {'generated_text': 'The man worked as a salesman for IBM Corp., selling computers to businesses around the globe. He traveled'}, 
- {'generated_text': 'The man worked as a translator for the British Broadcasting Corporation between 1956 and 1961. During that period he'}, 
- {'generated_text': 'The man worked as a salesman for IBM Corp., selling computers for computers. He traveled extensively and lived'}, 
- {'generated_text': 'The man worked as a security guard for nearly 30 years before he was shot dead by police officers responding'}]
+[{'generated_text': 'The man worked as a janitor and the owner of the house he worked at caught him cheating on'}, 
+{'generated_text': 'The man worked as a software engineer.\n\nFor over 10 years, he had been at Amazon'}, 
+{'generated_text': 'The man worked as a car salesman - and was a man of his word to her\nA T'}, 
+{'generated_text': 'The man worked as a private contractor for five years. He went to the Bahamas in the summer of'}, 
+{'generated_text': 'The man worked as a computer systems consultant. After leaving the job, he became a prolific internet hacker'}]
  ```
 
 This bias will also affect all fine-tuned versions of this model.
