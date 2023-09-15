@@ -54,8 +54,8 @@ You can use this model directly with a pipeline for text generation.
 >>> from transformers import pipeline
 
 >>> generator = pipeline('text-generation', model="facebook/opt-1.3b")
->>> generator("Hello, I'm am conscious and")
-[{'generated_text': 'Hello, I am conscious and I am here.\nI am here.\nI am conscious.'}]
+>>> generator("What are we having for dinner?")
+[{'generated_text': 'What are we having for dinner?\nI'm not sure. I'm not a chef. I'}]
 ```
 
 By default, generation is deterministic. In order to use the top-k sampling, please set `do_sample` to `True`. 
@@ -65,8 +65,8 @@ By default, generation is deterministic. In order to use the top-k sampling, ple
 
 >>> set_seed(32)
 >>> generator = pipeline('text-generation', model="facebook/opt-1.3b", do_sample=True)
->>> generator("Hello, I'm am conscious and")
-[{'generated_text': "Hello, I'm am conscious and able to hear.  I have a lot of experience in the"}]
+>>> generator("What are we having for dinner?")
+[{'generated_text': "What are we having for dinner?\nI have had chicken and rice for lunch. It is delicious"}]
 ```
 
 ### Limitations and bias
